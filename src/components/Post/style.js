@@ -4,9 +4,8 @@ export const PostStyle = styled.article`
   background: var(--gray-800);
   border-radius: 8px;
   padding: 2.5rem;
-  margin-bottom: 2rem;
 
-  .post + .post {
+  & + & {
     margin-top: 2rem;
   }
 
@@ -46,15 +45,6 @@ export const PostStyle = styled.article`
     display: flex;
     align-items: center;
     gap: 1rem;
-
-    img {
-      width: calc(3rem + 12px);
-      height: calc(3rem + 12px);
-      border-radius: 8px;
-      border: 4px solid var(--gray-800);
-      outline: 2px solid var(--green-500);
-      object-fit: 100%;
-    }
 
     .author-info {
       display: flex;

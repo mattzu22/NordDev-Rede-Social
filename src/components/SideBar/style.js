@@ -6,7 +6,7 @@ export const StyldeSideBar = styled.aside`
     border-radius: 8px;
     overflow: hidden;
 
-    img{
+    .cover{
        width: 100%;
        height: 72px;
        object-fit: cover;
@@ -18,15 +18,6 @@ export const StyldeSideBar = styled.aside`
         align-items: center;
         margin-top: -2rem;
         margin-top:calc(0px - 1.5rem - 6px); 
-
-        img{
-            width: calc(3rem + 12px);
-            height: calc(3rem + 12px);
-            border-radius: 8px;
-            border: 4px solid var(--gray-800);
-            outline: 2px solid var(--green-500);
-            object-fit: 100%;
-        }
 
         strong{
             margin-top: 1rem;

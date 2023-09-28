@@ -56,4 +56,9 @@ button{
   border: 0;
 }
 
+@media(max-width: 768px){
+    html{
+      font-size: 87.5%;
+    }
+  }
 `
