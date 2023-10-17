@@ -1,27 +1,59 @@
-
+import { useState } from "react";
 import { Avatar } from "../Avatar";
 import { Comment } from "../Comment";
 import { PostStyle } from "./style";
 import { format, formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
+export const Post = ({ author, content, publishedAt }) => {
+  const [comments, setComments] = useState(["Post mt bacana!"]);
 
-export const Post = ({author, content, publishedAt}) => {
-  const publishedAtFormatted = format(publishedAt, "d 'de' LLLL 'ás' HH:mm'h'", {
-    locale: ptBR,
-  })
+  const [newComment, setNewComment] = useState("");
+
+  const publishedAtFormatted = format(
+    publishedAt,
+    "d 'de' LLLL 'ás' HH:mm'h'",
+    {
+      locale: ptBR,
+    }
+  );
 
   const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
     locale: ptBR,
-    addSuffix: true
-  })
+    addSuffix: true,
+  });
 
+  function handleCreateNewComment() {
+    event.preventDefault();
+
+    setComments([...comments, newComment]);
+    setNewComment("");
+  }
+
+  function handleNewCommentChange() {
+    setNewComment(event.target.value);
+    event.target.setCustomValidity('')
+  }
+
+  function deleteComment(commentToDelete) {
+    const commentsWithoutDeleredOne = comments.filter((comment) => {
+      return comment !== commentToDelete;
+    });
+
+    setComments(commentsWithoutDeleredOne);
+  }
+
+  function handleNewCommentInvalid(){
+    event.target.setCustomValidity('Esse campo é obrigatório')
+  }
+
+  const isNewCommentEmpty = newComment.length === 0
 
   return (
     <PostStyle className="post">
       <header>
         <div className="author">
-          <Avatar src={author.avatarUrl}/>
+          <Avatar src={author.avatarUrl} />
 
           <div className="author-info">
             <strong>{author.name}</strong>
@@ -35,11 +67,15 @@ export const Post = ({author, content, publishedAt}) => {
       </header>
 
       <div className="content">
-        {content.map(line => {
-          if(line.type === "paragraph"){
-            return <p>{line.content}</p>
-          }else if(line.type === "link"){
-            return <p><a href="#">{line.content}</a></p>
+        {content.map((line) => {
+          if (line.type === "paragraph") {
+            return <p key={line.content}>{line.content}</p>;
+          } else if (line.type === "link") {
+            return (
+              <p key={line.content}>
+                <a href="#">{line.content}</a>
+              </p>
+            );
           }
         })}
 
@@ -50,18 +86,33 @@ export const Post = ({author, content, publishedAt}) => {
         </p>
       </div>
 
-      <form className="form-comment">
+      <form onSubmit={handleCreateNewComment} className="form-comment">
         <strong>Deixe seu feedback</strong>
 
-        <textarea placeholder="Deixe um comentário" />
+        <textarea
+          placeholder="Deixe um comentário"
+          name="comment"
+          onChange={handleNewCommentChange}
+          onInvalid={handleNewCommentInvalid}
+          required
+          value={newComment}
+        />
 
         <footer>
-          <button type="submit">Comentar</button>
+          <button type="submit" disabled={isNewCommentEmpty}>Comentar</button>
         </footer>
       </form>
 
       <div className="comment-list">
-          <Comment />
+        {comments.map((comment) => {
+          return (
+            <Comment
+              key={comment}
+              content={comment}
+              onDeleteComment={deleteComment}
+            />
+          );
+        })}
       </div>
     </PostStyle>
   );
