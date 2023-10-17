@@ -103,11 +103,14 @@ export const PostStyle = styled.article`
       background: var(--green-500);
       font-weight: bold;
       cursor: pointer;
-      /* transition: 0.3s ease; */
       color: var(--white);
 
-      &:hover {
+      &:not(:disabled):hover {
         background: var(--green-300);
+      }
+      &:disabled{
+        opacity: 0.7;
+        cursor: not-allowed;
       }
     }
   }
