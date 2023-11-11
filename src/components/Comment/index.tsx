@@ -4,7 +4,11 @@ import { Avatar } from "../Avatar";
 import user from "../../assets/avatar.png";
 import { useState } from "react";
 
-export const Comment = ({ content, onDeleteComment }) => {
+interface CommentProps{
+  content: string;
+  onDeleteComment: (comment: string)=> void
+}
+export const Comment = ({ content, onDeleteComment }: CommentProps) => {
   const [likeCount, setLikeCount] = useState(0);
 
   function headleDeleteComment() {
@@ -19,7 +23,7 @@ export const Comment = ({ content, onDeleteComment }) => {
 
   return (
     <CommentStyle>
-      <Avatar hasBorder={false} src={user} />
+      <Avatar hasBorder={false} src={user} alt=""/>
 
       <div className="comment-box">
         <div className="comment-content">
